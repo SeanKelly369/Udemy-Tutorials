@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { DataService } from './../../service/data.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '../../models/User';
 
 @Component({
@@ -8,71 +8,39 @@ import { User } from '../../models/User';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  user: User = {
+    firstName: '',
+    lastName: '',
+    email: ''
+  };
   users: User[];
-  showExtended: boolean = true;
-  loaded: boolean = false;
-  enableAdd: boolean = true;
+  showExtended = true;
+  loaded = false;
+  enableAdd = false;
+  showUserForm = false;
+  @ViewChild('userForm') form: any;
 
-  constructor() { }
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    // setTimeout(()=> {
 
-      this.users = [
-        {
-          firstName: 'John',
-          lastName: 'King',
-          age: 30,
-          address: {
-            street: '50 Main st',
-            city: 'Boston',
-            state: 'MA'
-          },
-          image: 'https://thechive.files.wordpress.com/2018/04/2469990-8.jpg?quality=85&strip=info&w=600'
-        },
-        {
-          firstName: 'Kevin',
-          lastName: 'Long',
-          age: 25,
-          address: {
-            street: '20 Johnston st',
-            city: 'Lynn',
-            state: 'MA'
-          },
-          image: 'https://thechive.files.wordpress.com/2018/04/2469990-3.jpg?quality=85&strip=info&w=6002'
-        },
-        {
-          firstName: 'Karen',
-          lastName: 'Wallace',
-          age: 22,
-          address: {
-            street: '23 Milf Lane',
-            city: 'Miami',
-            state: 'FL'
-          },
-          image: 'https://thechive.files.wordpress.com/2018/04/2469990-2.jpg?quality=85&strip=info&w=600'
-        }
-      ];
-    //
+      this.users = this.dataService.getUsers();
+
       this.loaded = true;
-    // }, 2000);
+    }
 
-    // this.showExtended = false;
+  onSubmit({value, valid}: {value: User, valid: boolean}) {
+    if (!valid) {
+      console.log('Form is not valid');
+    } else {
+      value.isActive = true;
+      value.registered = new Date();
+      value.hide = true;
 
-    this.addUser({
-      firstName: 'David',
-      lastName: 'McGowan',
-      // age: 45,
-      // address: {
-      //   street: '107 Penny Lane',
-      //   city: 'Charlotte',
-      //   state: 'NC'
-      // }
+      this.dataService.addUser(value);
 
-    });
+      this.form.reset();
+    }
   }
 
-  addUser(user: User) {
-    this.users.push(user);
-  }
 }
