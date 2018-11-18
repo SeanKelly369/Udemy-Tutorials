@@ -4,14 +4,11 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-
 })
 export class AppComponent {
-  showSecret: boolean = false;
-  log = [];
+  loadedFeature = 'recipe';
 
-  onToggleDetails() {
-    this.showSecret = !this.showSecret;
-    this.log.push(new Date());
+  onNavigate(feature: string) {
+    this.loadedFeature = feature;
   }
 }
