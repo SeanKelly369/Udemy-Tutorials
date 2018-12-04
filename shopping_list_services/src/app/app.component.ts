@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     firebase.initializeApp({
       apiKey: "AIzaSyDFr9rdCKplg3G4adPt4bWx8zyT0o8VZ9M",
-      authDomain: "max-data-ef033.firebaseapp.com"
+      authDomain: "max-data-ef033.firebaseio.com"
     });
   }
 
@@ -20,4 +20,3 @@ export class AppComponent implements OnInit {
     this.loadedFeature = feature;
   }
 }
-// getIdToken()
